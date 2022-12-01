@@ -7,6 +7,10 @@ let text = document.getElementById("text")
 let loader = document.getElementById("loader")
 let botonFinalizarCompra = document.getElementById("botonFinalizarCompra")
 
+let carrito = JSON.parse(localStorage.getItem("stock")) || [];
+
+
+
 productos.forEach((product)=>{
     let content = document.createElement("div");
     content.className = "card";
@@ -62,8 +66,13 @@ productos.forEach((product)=>{
         
     })
 });
-let guardadoLocal =() => {
-    localStorage.setItem("stock", JSON.stringify(carrito));
+function guardadoLocal () {
+    localStorage.setItem("stock", JSON.stringify(stockDisponible));
+}
+function cargarStorage (){
+    if (localStorage.getItem("stock") !==null){
+
+    }
 }
 
 

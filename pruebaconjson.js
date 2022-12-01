@@ -1,0 +1,94 @@
+// capturas del DOM
+let shopContent = document.getElementById ("shopContent");
+let botonCarrito = document.getElementById("botonCarrito")
+let modalContainer = document.getElementById ("modalContainer");
+let buscador = document.getElementById("buscador")
+let text = document.getElementById("text")
+let loader = document.getElementById("loader")
+let botonFinalizarCompra = document.getElementById("botonFinalizarCompra")
+
+// clase constructora
+class Productos {
+    constructor(id, nombre, precio, imagen, cantidad){
+        this.id = id,
+        this.nombre = nombre,
+        this.precio = precio,
+        this.imagen = imagen,
+        this.cantidad = cantidad
+    }
+    
+}
+
+let stockDisponible =  [];
+
+// petición asincronica con .json que creé. Lo hice siguiendo la clase.
+const cargarCarrito = async ()=>{
+    const response =  await fetch("productos.json")
+    const data =  await response.json()
+    // console.log (data)
+    for (let producto of data){
+        let productosNuevos = new Productos(producto.id, producto.nombre, producto.precio, producto.imagen, producto.cantidad);
+        stockDisponible.push (productosNuevos)
+        
+        let content = document.createElement("div");
+        content.className = "card";
+        content.innerHTML = `
+            <img src="${producto.img}">
+            <h3 class="titulo">${producto.nombre}</h3>
+            <p class="texto"> $${producto.precio}</p>
+        `;
+        
+        shopContent.append(content);
+        // btn comprar de la card.
+        let comprar = document.createElement ("button")
+        comprar.innerText = "¡lo quiero!";
+        comprar.className = "btn";
+    
+        content.append(comprar);
+       
+        // Con el some para que me detecte si ya está cargado o no porque le puse cantidad a c/objeto.
+        comprar.addEventListener("click", () =>{
+            let repeat = stockDisponible.some((productoRepetido) => productoRepetido.id === producto.id);
+
+            if(repeat){
+                stockDisponible.map ((prod)=>{
+                    if (prod.id === producto.id){
+                        prod.cantidad++;
+                    }
+                }); 
+            }else{
+                stockDisponible.push({
+                    id: producto.id,
+                    nombre: producto.nombre,
+                    precio: producto.precio,
+                    img: producto.img,
+                    cantidad: producto.cantidad,
+                });
+                // localStorage.setItem("carrito", JSON.stringify(stockDisponible))
+            }
+        })
+            // toastify para cuando se agrega un prod.
+            Toastify({
+                text: `${producto.nombre} fue agregado al carrito`,
+                duration: 2000,
+                newWindow: true,
+                close: true,
+                gravity: "bottom", 
+                position: "right", 
+                stopOnFocus: true, 
+                style: {
+                  background: "#ffc1d5",
+                  fontfamily: 'Arima', 
+                    fontsize: "18 px",
+                },
+                onClick: function(){} 
+              }).showToast();
+        }
+        
+    }
+
+cargarCarrito()
+
+
+// storage
+
