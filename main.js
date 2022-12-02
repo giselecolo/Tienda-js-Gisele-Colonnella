@@ -66,7 +66,7 @@ const cargarCarrito = async ()=>{
                     
                 });
                 console.log(comprar)
-                // localStorage.setItem("carrito", JSON.stringify(stockDisponible))
+                localStorage.setItem("carrito", JSON.stringify(stockDisponible))
             }
             // toastify para cuando se agrega un prod.
             Toastify({
