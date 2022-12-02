@@ -2,16 +2,16 @@
 let shopContent = document.getElementById ("shopContent");
 let botonCarrito = document.getElementById("botonCarrito")
 let modalContainer = document.getElementById ("modalContainer");
-let buscador = document.getElementById("buscador")
 let text = document.getElementById("text")
 let loader = document.getElementById("loader")
 let botonFinalizarCompra = document.getElementById("botonFinalizarCompra")
 
 // clase constructora
 class Productos {
-    constructor(id, nombre, precio, imagen, cantidad){
+    constructor(id, nombre, talle, precio, imagen, cantidad){
         this.id = id,
         this.nombre = nombre,
+        this.talle = talle,
         this.precio = precio,
         this.imagen = imagen,
         this.cantidad = cantidad
@@ -27,7 +27,7 @@ const cargarCarrito = async ()=>{
     const data =  await response.json()
     // console.log (data)
     for (let producto of data){
-        let productosNuevos = new Productos(producto.id, producto.nombre, producto.precio, producto.imagen, producto.cantidad);
+        let productosNuevos = new Productos(producto.id, producto.nombre, producto.talle, producto.precio, producto.imagen, producto.cantidad);
         stockDisponible.push (productosNuevos)
         
         let content = document.createElement("div");
@@ -35,11 +35,12 @@ const cargarCarrito = async ()=>{
         content.innerHTML = `
             <img src="${producto.img}">
             <h3 class="titulo">${producto.nombre}</h3>
+            <p class="texto"> ${producto.talle}</p>
             <p class="texto"> $${producto.precio}</p>
         `;
         
         shopContent.append(content);
-        // btn comprar de la card.
+        
         let comprar = document.createElement ("button")
         comprar.innerText = "¡lo quiero!";
         comprar.className = "btn";
@@ -49,7 +50,6 @@ const cargarCarrito = async ()=>{
         // Con el some para que me detecte si ya está cargado o no porque le puse cantidad a c/objeto.
         comprar.addEventListener("click", () =>{
             let repeat = stockDisponible.some((productoRepetido) => productoRepetido.id === producto.id);
-
             if(repeat){
                 stockDisponible.map ((prod)=>{
                     if (prod.id === producto.id){
@@ -63,10 +63,11 @@ const cargarCarrito = async ()=>{
                     precio: producto.precio,
                     img: producto.img,
                     cantidad: producto.cantidad,
+                    
                 });
+                console.log(comprar)
                 // localStorage.setItem("carrito", JSON.stringify(stockDisponible))
             }
-        })
             // toastify para cuando se agrega un prod.
             Toastify({
                 text: `${producto.nombre} fue agregado al carrito`,
@@ -83,9 +84,10 @@ const cargarCarrito = async ()=>{
                 },
                 onClick: function(){} 
               }).showToast();
-        }
-        
+        })
+            
     }
+}
 
 cargarCarrito()
 

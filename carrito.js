@@ -7,9 +7,9 @@ const activarCarrito = () => {
         carritoContent.innerHTML += `
         <h3>${producto.nombre}</h3>
         <p class="text">$${producto.precio}</p>
-        <p class="text">Cantidad: ${producto.cantidad}</p>
+        <p class="text"> Cantidad: ${producto.cantidad}</p>
         <span class="eliminar-producto"> 🗑 </span>
-        `
+        `;
         modalContainer.append(carritoContent)
 
         let eliminar = carritoContent.querySelector(".eliminar-producto");
@@ -23,7 +23,6 @@ const activarCarrito = () => {
                 timer: 1000,
             })
             carritoContent.append(eliminar)
-// agregado nuevo 19.57
         })
         
     });
@@ -35,8 +34,16 @@ const activarCarrito = () => {
     totalCompra.className = "text"
     totalCompra.innerHTML = `Total a pagar: $${total}`;
     modalContainer.append(totalCompra);
+    
 }
 
+botonCarrito.addEventListener("click", ()=>{
+    setTimeout (()=>{
+        text.innerHTML = "";
+        loader.remove();
+        activarCarrito(stockDisponible)
+    },1500)
+}) 
 
 // eliminar los productos del modal.
 const eliminarProducto = (id)=>{
@@ -46,15 +53,8 @@ const eliminarProducto = (id)=>{
         return idCarrito !== foundId;
     });// retorno todos los elementos son el id del que se elimina    
 }
-activarCarrito()
 
-botonCarrito.addEventListener("click", ()=>{
-    setTimeout (()=>{
-        text.innerHTML = "";
-        loader.remove();
-        activarCarrito()
-    },1500)
-}) 
+
 
 botonFinalizarCompra.addEventListener("click", ()=>{  
         const { value: email } =  Swal.fire({
