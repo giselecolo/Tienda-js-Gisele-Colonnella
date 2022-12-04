@@ -46,7 +46,7 @@ const cargarCarrito = async ()=>{
         comprar.innerText = "¡lo quiero!";
         comprar.className = "btn";
     
-        // content.append(comprar);
+        content.append(comprar);
        
         // Con el some para que me detecte si ya está cargado o no porque le puse cantidad a c/objeto.
         comprar.addEventListener("click", () =>{
