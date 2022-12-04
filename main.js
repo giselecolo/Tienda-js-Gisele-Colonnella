@@ -19,13 +19,14 @@ class Productos {
     
 }
 
-let stockDisponible =  [];
+let stockDisponible = JSON.parse(localStorage.getItem("carrito")) || [];
+// let stockDisponible = JSON.parse(localStorage.getItem("carrito")) || [];
 
 // petición asincronica con .json que creé. Lo hice siguiendo la clase.
 const cargarCarrito = async ()=>{
     const response =  await fetch("productos.json")
     const data =  await response.json()
-    // console.log (data)
+    console.log (data)
     for (let producto of data){
         let productosNuevos = new Productos(producto.id, producto.nombre, producto.talle, producto.precio, producto.imagen, producto.cantidad);
         stockDisponible.push (productosNuevos)
@@ -45,7 +46,7 @@ const cargarCarrito = async ()=>{
         comprar.innerText = "¡lo quiero!";
         comprar.className = "btn";
     
-        content.append(comprar);
+        // content.append(comprar);
        
         // Con el some para que me detecte si ya está cargado o no porque le puse cantidad a c/objeto.
         comprar.addEventListener("click", () =>{
@@ -63,10 +64,11 @@ const cargarCarrito = async ()=>{
                     precio: producto.precio,
                     img: producto.img,
                     cantidad: producto.cantidad,
+
                     
                 });
                 console.log(comprar)
-                localStorage.setItem("carrito", JSON.stringify(stockDisponible))
+               
             }
             // toastify para cuando se agrega un prod.
             Toastify({
@@ -84,6 +86,8 @@ const cargarCarrito = async ()=>{
                 },
                 onClick: function(){} 
               }).showToast();
+            //   saveLocal()
+            localStorage.setItem("carrito", JSON.stringify(stockDisponible))
         })
             
     }
@@ -91,6 +95,20 @@ const cargarCarrito = async ()=>{
 
 cargarCarrito()
 
+// storage 
+// if(localStorage.getItem("carrito")){
+//     stockDisponible =JSON.parse(localStorage.getItem("carrito"))
+// }else{
+//     console.log("cargando array x primera vez")
+    
+//     console.log(stockDisponible)
+//     localStorage.setItem("carrito", JSON.stringify(stockDisponible))
+// }
+  
 
-// storage
+console.log("cargando array x primera vez")
+    
+console.log(stockDisponible)
+localStorage.setItem("carrito", JSON.stringify(stockDisponible))
+
 
