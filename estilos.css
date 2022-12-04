@@ -42,6 +42,7 @@ h1{
 
 .p{
     color: white;
+    font-family: 'Pacifico', cursive;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
     font-size: 30px;
     opacity: 0.7; 
@@ -82,7 +83,7 @@ h1{
     color: black;
     padding-left: 5px;
 }
-.precio{
+.texto{
     font-family: 'Arima', cursive;
     font-size: 22px;
     font-style: normal;

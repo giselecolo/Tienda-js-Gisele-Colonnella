@@ -1,5 +1,5 @@
 // carrito del nav.
-const activarCarrito = () => {
+let  activarCarrito = () => {
     modalContainer.innerHTML = "";
     stockDisponible.forEach ((producto) =>{
         let carritoContent = document.createElement ("div")
@@ -10,20 +10,23 @@ const activarCarrito = () => {
         <p class="text"> Cantidad: ${producto.cantidad}</p>
         <span class="eliminar-producto"> 🗑 </span>
         `;
-        modalContainer.append(carritoContent)
 
+        modalContainer.append(carritoContent);
+            
         let eliminar = carritoContent.querySelector(".eliminar-producto");
-       
+        carritoContent.append(eliminar)
+
         eliminar.addEventListener("click", ()=>{
             eliminarProducto (producto.id)
             Swal.fire({
                 title: `${producto.nombre} eliminado.`,
                 icon: "success",
                 confirmButtonColor: "#ffc1d5",
-                timer: 1000,
+                timer: 900,
             })
-            carritoContent.append(eliminar)
+           
         })
+        // localStorage.setItem("carrito", JSON.stringify(stockDisponible));
         
     });
     
@@ -35,15 +38,21 @@ const activarCarrito = () => {
     totalCompra.innerHTML = `Total a pagar: $${total}`;
     modalContainer.append(totalCompra);
     
+    activarCarrito.length === 0 && console.log ("carrito vacio")    
 }
 
+
+
 botonCarrito.addEventListener("click", ()=>{
+    modalContainer.innerHTML = "";
     setTimeout (()=>{
         text.innerHTML = "";
         loader.remove();
-        activarCarrito(stockDisponible)
+        // activarCarrito()
     },1500)
+    
 }) 
+
 
 // eliminar los productos del modal.
 const eliminarProducto = (id)=>{
@@ -52,6 +61,7 @@ const eliminarProducto = (id)=>{
     stockDisponible = stockDisponible.filter ((idCarrito) =>{
         return idCarrito !== foundId;
     });// retorno todos los elementos son el id del que se elimina    
+    activarCarrito();
 }
 
 
