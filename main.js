@@ -23,7 +23,7 @@ class Productos {
 let stockDisponible = JSON.parse(localStorage.getItem("carrito")) || [];
 
 // petición asincronica con .json que creé. Lo hice siguiendo la clase.
-const cargarCarrito = async ()=>{
+const setearProductos = async ()=>{
     const response =  await fetch("productos.json")
     const data =  await response.json()
     console.log (data)
@@ -90,12 +90,10 @@ const cargarCarrito = async ()=>{
 }
 
 
-// storage 
-
 console.log("cargando array x primera vez")
 console.log(stockDisponible)
 
-cargarCarrito()
+setearProductos(stockDisponible)
 
 
 

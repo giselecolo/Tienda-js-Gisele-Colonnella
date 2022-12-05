@@ -71,9 +71,8 @@ h1{
 .card-body p{
     font-family: 'Pacifico', cursive;
     text-align: center;
-    font-size: 18px;
+    font-size: 14px;
     color: black;
-    margin: 16px;
 }
 .titulo{
     font-family: 'Arima', cursive;
@@ -85,11 +84,10 @@ h1{
 }
 .texto{
     font-family: 'Arima', cursive;
-    font-size: 22px;
+    font-size: 14px;
     font-style: normal;
     text-align: center;
     color: black;
-    padding-left: 5px;
 }
 .btn{
     text-decoration: none;
@@ -108,4 +106,10 @@ h1{
 /* modal */
 .eliminar-producto{
     cursor: pointer;
+}
+.modal-content{
+    font-family: 'Arima', cursive;
+    font-size: 12px;
+    text-align: left;
+    color: black;
 }

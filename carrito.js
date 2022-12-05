@@ -6,14 +6,14 @@ let  activarCarrito = () => {
         carritoContent.className = "modal-content"
         carritoContent.innerHTML += `
         <h3>${producto.nombre}</h3>
-        <p class="text">$${producto.precio}</p>
-        <p class="text"> Cantidad: ${producto.cantidad}</p>
-        <span id="botonEliminar" class="eliminar-producto"> 🗑 </span>
+        <p class="texto">$${producto.precio}</p>
+        <p class="texto"> Cantidad: ${producto.cantidad}</p>
+        
+        <span id="botonEliminar" class="eliminar-producto"> ❌ </span>
         `;
 
         modalContainer.append(carritoContent);
             
-        // let eliminar = carritoContent.querySelector(".eliminar-producto");
         let eliminar = carritoContent.querySelector(".eliminar-producto");
         carritoContent.append(eliminar)
 
@@ -39,7 +39,9 @@ function totalCompra(stockDisponible){
     total = stockDisponible.reduce((acc, producto)=>acc + producto.precio,0)
     console.log(total)
     total == 0 ? precioTotal.innerHTML = `No hay productos en el carrito`: precioTotal.innerHTML = `EL total de su carrito es ${total}`;
+    // modalContainer.append(totalCompra);
 }
+
 
 botonCarrito.addEventListener("click", ()=>{
     modalContainer.innerHTML = "";
@@ -58,7 +60,7 @@ const eliminarProducto = (id)=>{
 
     stockDisponible = stockDisponible.filter ((idCarrito) =>{
         return idCarrito !== foundId;
-    });// retorno todos los elementos sin el id del que se elimina    
+    });// retorno todos los elementos son el id del que se elimina    
     activarCarrito();
 }
 
