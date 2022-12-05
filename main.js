@@ -2,6 +2,7 @@
 let shopContent = document.getElementById ("shopContent");
 let botonCarrito = document.getElementById("botonCarrito");
 let modalContainer = document.getElementById ("modalContainer");
+let precioTotal = document.getElementById("precioTotal")
 let text = document.getElementById("text");
 let loader = document.getElementById("loader");
 let botonFinalizarCompra = document.getElementById("botonFinalizarCompra");
@@ -20,7 +21,6 @@ class Productos {
 }
 
 let stockDisponible = JSON.parse(localStorage.getItem("carrito")) || [];
-// let stockDisponible =  [];
 
 // petición asincronica con .json que creé. Lo hice siguiendo la clase.
 const cargarCarrito = async ()=>{
@@ -63,9 +63,9 @@ const cargarCarrito = async ()=>{
                     precio: producto.precio,
                     cantidad: producto.cantidad,
                 });
-                console.log(comprar)
                
             }
+            
             // toastify para cuando se agrega un prod.
             Toastify({
                 text: `${producto.nombre} fue agregado al carrito`,
@@ -82,17 +82,21 @@ const cargarCarrito = async ()=>{
                 },
                 onClick: function(){} 
               }).showToast();
-            //   saveLocal()
-            // localStorage.setItem("carrito", JSON.stringify(stockDisponible))
+           
+            localStorage.setItem("carrito", JSON.stringify(stockDisponible))
         })
             
     }
 }
 
 
+// storage 
 
 console.log("cargando array x primera vez")
 console.log(stockDisponible)
 
-cargarCarrito(stockDisponible)
+cargarCarrito()
+
+
+
 
