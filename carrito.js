@@ -1,9 +1,6 @@
 // carrito del nav.
 let productosEnCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-
-
-
 function cargarProductosCarrito(array) {
     modalBodyCarrito.innerHTML = ""
     array.forEach((producto) => {
@@ -43,6 +40,7 @@ function cargarProductosCarrito(array) {
 
     totalCompra(array)
 }
+//PROFE: si elimino 1 producto, se eliminan todos los agregados (si había más de uno), no encuentro la vuelta.
 
 
 //function calcular total
