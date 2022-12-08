@@ -20,7 +20,7 @@ class Productos {
     
 }
 
-let stockDisponible = JSON.parse(localStorage.getItem("carrito")) || [];
+let stockDisponible =  [];
 
 // petición asincronica con .json que creé. Lo hice siguiendo la clase.
 const setearProductos = async ()=>{
@@ -49,15 +49,15 @@ const setearProductos = async ()=>{
        
         // Con el some para que me detecte si ya está cargado o no porque le puse cantidad a c/objeto.
         comprar.addEventListener("click", () =>{
-            let repeat = stockDisponible.some((productoRepetido) => productoRepetido.id === producto.id);
+            let repeat = productosEnCarrito.some((productoRepetido) => productoRepetido.id === producto.id);
             if(repeat){
-                stockDisponible.map ((prod)=>{
+                productosEnCarrito.map ((prod)=>{
                     if (prod.id === producto.id){
                         prod.cantidad++;
                     }
                 }); 
             }else{
-                stockDisponible.push({
+                productosEnCarrito.push({
                     id: producto.id,
                     nombre: producto.nombre,
                     precio: producto.precio,
@@ -65,7 +65,7 @@ const setearProductos = async ()=>{
                 });
                
             }
-            
+            localStorage.setItem("carrito", JSON.stringify(productosEnCarrito))
             // toastify para cuando se agrega un prod.
             Toastify({
                 text: `${producto.nombre} fue agregado al carrito`,
@@ -83,17 +83,22 @@ const setearProductos = async ()=>{
                 onClick: function(){} 
               }).showToast();
            
-            localStorage.setItem("carrito", JSON.stringify(stockDisponible))
+            
+            localStorage.setItem("carrito", JSON.stringify(productosEnCarrito))
         })
             
     }
 }
 
+// setearProductos(stockDisponible)
 
-console.log("cargando array x primera vez")
-console.log(stockDisponible)
+//CONDICIONAL PRIMER INGRESO
 
-setearProductos(stockDisponible)
+if (localStorage.getItem("stockDisponible")) {
+    stockDisponible = JSON.parse(localStorage.getItem("stockDisponible"))
+} else {
+    setearProductos(stockDisponible)
+}
 
 
 

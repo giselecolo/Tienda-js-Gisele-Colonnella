@@ -1,54 +1,50 @@
 // carrito del nav.
-let  activarCarrito = () => {
-    modalContainer.innerHTML = "";
-    stockDisponible.forEach ((producto) =>{
-        let carritoContent = document.createElement ("div")
-        carritoContent.className = "modal-content"
-        carritoContent.innerHTML += `
-        <h3>${producto.nombre}</h3>
-        <p class="texto">$${producto.precio}</p>
-        <p class="texto"> Cantidad: ${producto.cantidad}</p>
-        
-        <span id="botonEliminar" class="eliminar-producto"> ❌ </span>
-        `;
+let productosEnCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-        modalContainer.append(carritoContent);
-            
-        let eliminar = carritoContent.querySelector(".eliminar-producto");
-        carritoContent.append(eliminar)
+function cargarProductosCarrito(array){
+    modalBodyCarrito.innerHTML = ""
+    array.forEach((productoComprado)=>{
+        modalBodyCarrito.innerHTML += `
+        <h3>${productoComprado.nombre}</h3>
+                <p class="texto">$${productoComprado.precio}</p>
+                <p class="texto"> Cantidad: ${productoComprado.cantidad}</p>
+                <button class= "btn btn-danger" id="botonEliminar ${productoComprado.id}"><i class="fas fa-trash-alt"></i></button>
+            </div>    
+        </div>
+`
+    })
 
-        eliminar.addEventListener("click", ()=>{
-            eliminarProducto (producto.id)
-            Swal.fire({
-                title: `${producto.nombre} eliminado.`,
-                icon: "success",
-                confirmButtonColor: "#ffc1d5",
-                timer: 900,
-            })
-           
+   //elimino del carrito (boton)
+    let eliminar = document.getElementById ("botonEliminar");
+    eliminar.addEventListener("click", ()=>{
+        eliminarProducto (productoComprado.id)
+        Swal.fire({
+            title: `${productoComprado.nombre} eliminado.`,
+            icon: "success",
+            confirmButtonColor: "#ffc1d5",
+            timer: 900,
         })
-        localStorage.setItem("carrito", JSON.stringify(stockDisponible));
-        totalCompra(stockDisponible)
-        
-    });
-    totalCompra(stockDisponible)
+    })
+    // carritoContent.append(eliminar)
+    
+    totalCompra(array)
 }
+
 //function calcular total
-function totalCompra(stockDisponible){
+function totalCompra(array){
     let total = 0
-    total = stockDisponible.reduce((acc, producto)=>acc + producto.precio,0)
+    total = array.reduce((acc, producto)=>acc + producto.precio,0)
     console.log(total)
     total == 0 ? precioTotal.innerHTML = `No hay productos en el carrito`: precioTotal.innerHTML = `EL total de su carrito es ${total}`;
-    // modalContainer.append(totalCompra);
 }
 
-
+//evento btoton 
 botonCarrito.addEventListener("click", ()=>{
-    modalContainer.innerHTML = "";
+    modalBodyCarrito.innerHTML = "";
     setTimeout (()=>{
         text.innerHTML = "";
         loader.remove();
-        activarCarrito()
+        cargarProductosCarrito(productosEnCarrito)
     },1500)
     
 }) 
@@ -56,12 +52,11 @@ botonCarrito.addEventListener("click", ()=>{
 
 // eliminar productos comprados.
 const eliminarProducto = (id)=>{
-    const foundId = stockDisponible.find ((element) => element.id === id)
-
-    stockDisponible = stockDisponible.filter ((idCarrito) =>{
+    const foundId = productosEnCarrito.find ((element) => element.id === id)
+    productosEnCarrito = productosEnCarrito.filter ((idCarrito) =>{
         return idCarrito !== foundId;
     });// retorno todos los elementos son el id del que se elimina    
-    activarCarrito();
+    cargarProductosCarrito();
 }
 
 
@@ -74,7 +69,7 @@ function finalizarCompra(){
         title: '¿Confirmás su compra?',
         icon: 'info',
         showCancelButton: true,
-        confirmButtonText: 'Sí, seguro',
+        confirmButtonText: 'Comprar',
         cancelButtonText: 'No, no quiero',
         confirmButtonColor: 'green',
         cancelButtonColor: 'red',
@@ -86,17 +81,16 @@ function finalizarCompra(){
             confirmButtonColor: 'green',
             text: `Muchas gracias por su compra! nos pondremos en contacto para que reciba los productos. `,
             })
-            //resetear o llevar a cero el array de carrito
-            //Tenemos que researtearlo tanto al array como al localStorage
-            stockDisponible =[]
+            //reseteo
+            productosEnCarrito =[]
             localStorage.removeItem("carrito")
         }else{
             Swal.fire({
                 title: 'Compra no realizada',
                 icon: 'info',
-                text: `La compra no ha sido realizada! Atención sus productos siguen en el carrito`,
+                text: `La compra no ha sido realizada!`,
                 confirmButtonColor: 'green',
-                timer:3500
+                timer:2500
             })
         }
     })
@@ -113,6 +107,7 @@ function finalizarCompra(){
 //             Swal.fire(`ingresá un mail: ${email}`)
 //           }
 // })
+//buscar otro más completo, porque no muestra opcion si está vacio.
     
 
 

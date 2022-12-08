@@ -84,9 +84,9 @@ h1{
 }
 .texto{
     font-family: 'Arima', cursive;
-    font-size: 14px;
+    font-size: 16px;
     font-style: normal;
-    text-align: center;
+    text-align: left;
     color: black;
 }
 .btn{
@@ -109,7 +109,7 @@ h1{
 }
 .modal-content{
     font-family: 'Arima', cursive;
-    font-size: 12px;
+    font-size: 17px;
     text-align: left;
     color: black;
 }
