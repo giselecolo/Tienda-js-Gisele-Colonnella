@@ -30,7 +30,15 @@ h1{
     text-align: center;
     font-size: 32px;
     color: black;
-    margin: 16px;
+    margin: 20px;
+}
+.frase{
+    font-family: 'Arima', cursive;
+    font-size: 18px;
+    font-style: normal;
+    text-align: center;
+    color: black;
+
 }
 .ver-carrito{
     font-size: 25px;
@@ -39,13 +47,14 @@ h1{
     cursor: pointer;
 }
 
-
-.p{
+.texto{
     color: white;
     font-family: 'Pacifico', cursive;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-    font-size: 30px;
-    opacity: 0.7; 
+    font-size: 18px;
+    text-align: center;
+    color: black;
+     
 }
 /* card */
 
@@ -82,13 +91,7 @@ h1{
     color: black;
     padding-left: 5px;
 }
-.texto{
-    font-family: 'Arima', cursive;
-    font-size: 16px;
-    font-style: normal;
-    text-align: left;
-    color: black;
-}
+
 .btn{
     text-decoration: none;
     color: black;
@@ -100,7 +103,6 @@ h1{
     cursor: pointer;
     outline: 0;
 }
-
 
 
 /* modal */

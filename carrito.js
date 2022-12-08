@@ -1,44 +1,60 @@
 // carrito del nav.
 let productosEnCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-function cargarProductosCarrito(array){
-    modalBodyCarrito.innerHTML = ""
-    array.forEach((productoComprado)=>{
-        modalBodyCarrito.innerHTML += `
-        <h3>${productoComprado.nombre}</h3>
-                <p class="texto">$${productoComprado.precio}</p>
-                <p class="texto"> Cantidad: ${productoComprado.cantidad}</p>
-                <button class= "btn btn-danger" id="botonEliminar ${productoComprado.id}"><i class="fas fa-trash-alt"></i></button>
-            </div>    
-        </div>
-`
-    })
 
-   //elimino del carrito (boton)
-    let eliminar = document.getElementById ("botonEliminar");
-    eliminar.addEventListener("click", ()=>{
-        eliminarProducto (productoComprado.id)
-        Swal.fire({
-            title: `${productoComprado.nombre} eliminado.`,
-            icon: "success",
-            confirmButtonColor: "#ffc1d5",
-            timer: 900,
+
+
+function cargarProductosCarrito(array) {
+    modalBodyCarrito.innerHTML = ""
+    array.forEach((producto) => {
+        modalBodyCarrito.innerHTML += `
+        <div class="card" id="productoCarrito${producto.id}" style="width: 50%; margin: auto; margin-bottom: 5%;">
+        <div class="card-body">
+            <h3 class="card-title">${producto.nombre}</h3>
+            <p class="texto">${producto.talle}</p>
+            <p class="texto">Precio: $${producto.precio}</p>
+            <p class="texto">Cantidad: ${producto.cantidad}</p>
+            <button class= "btn btn-danger" id="botonEliminar${producto.id}">Eliminar</a>
+        </div>
+        </div>
+        `
+    })
+    array.forEach((producto) => {
+        document.getElementById(`botonEliminar${producto.id}`).addEventListener("click", () => {
+            let cardProducto = document.getElementById(`productoCarrito${producto.id}`)
+            cardProducto.remove()
+            //Eliminar del array de comprar
+            let ids = array.map(elem => elem.id)
+            let indice = ids.indexOf(producto.id)
+            if (indice != -1) { productosEnCarrito.splice(indice, 1) }
+            localStorage.setItem('carrito', JSON.stringify(productosEnCarrito))
+            //seteo la tienda a0
+            for (elemento of stockDisponible) {
+                if (elemento.id == producto.id) {
+                    elemento.cantidad = 0;
+                }
+            }
+            
+            localStorage.setItem("stockDisponible", JSON.stringify(stockDisponible))
+            //calculo compraTotal
+            totalCompra(array)
         })
     })
-    // carritoContent.append(eliminar)
-    
+
     totalCompra(array)
 }
+
 
 //function calcular total
 function totalCompra(array){
     let total = 0
-    total = array.reduce((acc, producto)=>acc + producto.precio,0)
+    total = array.reduce((acc, product)=>acc + product.precio,0)
     console.log(total)
     total == 0 ? precioTotal.innerHTML = `No hay productos en el carrito`: precioTotal.innerHTML = `EL total de su carrito es ${total}`;
 }
 
 //evento btoton 
+// botonCarrito.addEventListener("click", () => { cargarProductosCarrito(productosEnCarrito) })
 botonCarrito.addEventListener("click", ()=>{
     modalBodyCarrito.innerHTML = "";
     setTimeout (()=>{
@@ -51,13 +67,13 @@ botonCarrito.addEventListener("click", ()=>{
 
 
 // eliminar productos comprados.
-const eliminarProducto = (id)=>{
-    const foundId = productosEnCarrito.find ((element) => element.id === id)
-    productosEnCarrito = productosEnCarrito.filter ((idCarrito) =>{
-        return idCarrito !== foundId;
-    });// retorno todos los elementos son el id del que se elimina    
-    cargarProductosCarrito();
-}
+// const eliminarProducto = (id)=>{
+//     const foundId = productosEnCarrito.find ((element) => element.id === id)
+//     productosEnCarrito = productosEnCarrito.filter ((idCarrito) =>{
+//         return idCarrito !== foundId;
+//     });// retorno todos los elementos son el id del que se elimina    
+//     cargarProductosCarrito();
+// }
 
 
 // finalizar compra- tomado de la clase con mejor cierre que solo el mail.
@@ -95,6 +111,12 @@ function finalizarCompra(){
         }
     })
 }
+
+
+
+
+
+
 
 // botonFinalizarCompra.addEventListener("click", ()=>{  
 //         const { value: email } =  Swal.fire({

@@ -1,7 +1,7 @@
 // capturas del DOM
 let shopContent = document.getElementById ("shopContent");
 let botonCarrito = document.getElementById("botonCarrito");
-let modalContainer = document.getElementById ("modalContainer");
+let modalBodyCarrito = document.getElementById ("modalBodyCarrito");
 let precioTotal = document.getElementById("precioTotal")
 let text = document.getElementById("text");
 let loader = document.getElementById("loader");
