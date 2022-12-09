@@ -8,9 +8,9 @@ function cargarProductosCarrito(array) {
         <div class="card" id="productoCarrito${producto.id}" style="width: 50%; margin: auto; margin-bottom: 5%;">
         <div class="card-body">
             <h3 class="card-title">${producto.nombre}</h3>
-            <p class="texto">${producto.talle}</p>
             <p class="texto">Precio: $${producto.precio}</p>
             <p class="texto">Cantidad: ${producto.cantidad}</p>
+            <p class="texto">subtotal: ${producto.cantidad * producto.precio}</p>
             <button class= "btn btn-danger" id="botonEliminar${producto.id}">Eliminar</a>
         </div>
         </div>
@@ -20,6 +20,7 @@ function cargarProductosCarrito(array) {
         document.getElementById(`botonEliminar${producto.id}`).addEventListener("click", () => {
             let cardProducto = document.getElementById(`productoCarrito${producto.id}`)
             cardProducto.remove()
+            
             //Eliminar del array de comprar
             let ids = array.map(elem => elem.id)
             let indice = ids.indexOf(producto.id)
@@ -32,10 +33,18 @@ function cargarProductosCarrito(array) {
                 }
             }
             
-            localStorage.setItem("stockDisponible", JSON.stringify(stockDisponible))
+            localStorage.setItem("productosEnCarrito", JSON.stringify(productosEnCarrito))
             //calculo compraTotal
+            Swal.fire({
+                title: `${producto.nombre} eliminado.`,
+                icon: "success",
+                confirmButtonColor: "#ffc1d5",
+                timer: 900,
+            })
+            contadorCarrito()
             totalCompra(array)
         })
+       
     })
 
     totalCompra(array)
@@ -46,32 +55,27 @@ function cargarProductosCarrito(array) {
 //function calcular total
 function totalCompra(array){
     let total = 0
-    total = array.reduce((acc, product)=>acc + product.precio,0)
+    total = array.reduce((acc, product)=>acc + product.precio * product.cantidad,0)
     console.log(total)
     total == 0 ? precioTotal.innerHTML = `No hay productos en el carrito`: precioTotal.innerHTML = `EL total de su carrito es ${total}`;
 }
 
-//evento btoton 
-// botonCarrito.addEventListener("click", () => { cargarProductosCarrito(productosEnCarrito) })
+//evento btoton
 botonCarrito.addEventListener("click", ()=>{
     modalBodyCarrito.innerHTML = "";
     setTimeout (()=>{
         text.innerHTML = "";
         loader.remove();
         cargarProductosCarrito(productosEnCarrito)
+        
     },1500)
     
 }) 
 
-
-// eliminar productos comprados.
-// const eliminarProducto = (id)=>{
-//     const foundId = productosEnCarrito.find ((element) => element.id === id)
-//     productosEnCarrito = productosEnCarrito.filter ((idCarrito) =>{
-//         return idCarrito !== foundId;
-//     });// retorno todos los elementos son el id del que se elimina    
-//     cargarProductosCarrito();
-// }
+const contadorCarrito = ()=>{
+    cantidadCarrito.style.display = "block";
+    cantidadCarrito.innerText = productosEnCarrito.length;
+};
 
 
 // finalizar compra- tomado de la clase con mejor cierre que solo el mail.
@@ -114,31 +118,16 @@ function finalizarCompra(){
 
 
 
+// eliminar productos comprados. pero también elimina los dos
+// const eliminarProducto = (id)=>{
+//     const foundId = productosEnCarrito.find ((element) => element.id === id)
+//     productosEnCarrito = productosEnCarrito.filter ((idCarrito) =>{
+//         return idCarrito !== foundId;
+//     });// retorno todos los elementos son el id del que se elimina    
+//     cargarProductosCarrito();
+// }
 
 
-// botonFinalizarCompra.addEventListener("click", ()=>{  
-//         const { value: email } =  Swal.fire({
-//             title: 'Ingresá tu mail para que te contactemos para finalizar tu compra',
-//             input: 'email',
-//             inputLabel: 'tu Mail',
-//             inputPlaceholder: 'tumail@ejemplo.com'
-//           })
-//           if (email) {
-//             Swal.fire(`ingresá un mail: ${email}`)
-//           }
-// })
+
 //buscar otro más completo, porque no muestra opcion si está vacio.
     
-
-
-
-
-
-
-// TOTAL compra con método reduce
-// const total =  stockDisponible.reduce ((acc, el) => acc + el.precio, 0);
-
-// let totalCompra = document.createElement("div")
-// totalCompra.className = "text"
-// totalCompra.innerHTML = `Total a pagar: $${total}`;
-// modalContainer.append(totalCompra);

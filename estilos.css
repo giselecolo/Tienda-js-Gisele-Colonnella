@@ -24,7 +24,15 @@ body{
 .nav-item{
     text-decoration: none;
 }
-
+.cantidad-carrito{
+    background-color: black;
+    color: white;
+    border-radius: 60%;
+    padding: 4px;
+    top: 37px;
+    position: absolute;
+    display: none;
+}
 h1{
     font-family: 'Pacifico', cursive;
     text-align: center;

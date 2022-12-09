@@ -1,6 +1,7 @@
 // capturas del DOM
 let shopContent = document.getElementById ("shopContent");
 let botonCarrito = document.getElementById("botonCarrito");
+let cantidadCarrito = document.getElementById("cantidadCarrito")
 let modalBodyCarrito = document.getElementById ("modalBodyCarrito");
 let precioTotal = document.getElementById("precioTotal")
 let text = document.getElementById("text");
@@ -63,9 +64,10 @@ const setearProductos = async ()=>{
                     precio: producto.precio,
                     cantidad: producto.cantidad,
                 });
+            contadorCarrito()
                
             }
-            localStorage.setItem("carrito", JSON.stringify(productosEnCarrito))
+            // localStorage.setItem("carrito", JSON.stringify(productosEnCarrito))
             // toastify para cuando se agrega un prod.
             Toastify({
                 text: `${producto.nombre} fue agregado al carrito`,
@@ -90,14 +92,14 @@ const setearProductos = async ()=>{
     }
 }
 
-// setearProductos(stockDisponible)
 
 //CONDICIONAL PRIMER INGRESO
 
 if (localStorage.getItem("stockDisponible")) {
     stockDisponible = JSON.parse(localStorage.getItem("stockDisponible"))
 } else {
-    setearProductos(stockDisponible)
+    setearProductos()
+    localStorage.setItem("stockDisponible", JSON.stringify(stockDisponible))
 }
 
 
